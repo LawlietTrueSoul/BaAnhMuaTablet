@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dự án Đầu tư: Lenovo Pad Pro GT</title>
+  <style>
+    :root {
+      --bg-base:        #1e1e1e;
+      --bg-elevated:    #2c2c2e;
+      --bg-overlay:     #3a3a3c;
+      --bg-input:       #1c1c1e;
+      --border:         rgba(255,255,255,0.08);
+      --border-strong:  rgba(255,255,255,0.15);
+
+      --text-primary:   rgba(255,255,255,0.92);
+      --text-secondary: rgba(255,255,255,0.55);
+      --text-tertiary:  rgba(255,255,255,0.30);
+      --text-disabled:  rgba(255,255,255,0.20);
+
+      --accent:         #0a84ff;
+      --accent-hover:   #409cff;
+      --accent-green:   #30d158;
+      --accent-red:     #ff453a;
+      --accent-yellow:  #ffd60a;
+      --accent-orange:  #ff9f0a;
+      --accent-purple:  #bf5af2;
+
+      --shadow-sm:  0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md:  0 4px 16px rgba(0,0,0,0.5);
+      --shadow-lg:  0 12px 40px rgba(0,0,0,0.7);
+
+      --radius-sm:  6px;
+      --radius-md:  10px;
+      --radius-lg:  14px;
+      --radius-xl:  20px;
+
+      --blur:       blur(20px) saturate(180%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      background: #111 url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
+      color: var(--text-primary);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .window {
+      width: 95vw;
+      max-width: 1240px;
+      height: 85vh;
+      background: var(--bg-base);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: window-open 300ms cubic-bezier(0.34,1.56,0.64,1);
+      will-change: transform, opacity;
+    }
+
+    @keyframes window-open {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .titlebar {
+      height: 52px;
+      background: var(--bg-elevated);
+      backdrop-filter: var(--blur);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .traffic-lights {
+      display: flex;
+      gap: 8px;
+      padding-left: 18px;
+      position: absolute;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot.red { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green { background: #28c840; }
+
+    .title {
+      width: 100%;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    .window-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--bg-elevated);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 12px 12px 4px;
+    }
+
+    .nav-item {
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 150ms ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-item svg {
+      width: 16px;
+      height: 16px;
+      color: var(--accent);
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-item.active {
+      background: rgba(10,132,255,0.25);
+      color: var(--accent);
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 48px;
+      background: var(--bg-base);
+      scroll-behavior: smooth;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    p.subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 48px;
+      max-width: 650px;
+    }
+
+    .section {
+      margin-bottom: 56px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+      will-change: transform;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .card.card-large {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(10,132,255,0.05), rgba(48,209,88,0.05));
+      border: 1px solid var(--accent);
+    }
+
+    .card-icon {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(10,132,255,0.1);
+      color: var(--accent);
+      border-radius: var(--radius-md);
+    }
+
+    .card-icon.purple { background: rgba(191,90,242,0.1); color: var(--accent-purple); }
+    .card-icon.green { background: rgba(48,209,88,0.1); color: var(--accent-green); }
+    .card-icon.orange { background: rgba(255,159,10,0.1); color: var(--accent-orange); }
+
+    .card h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .compare-box {
+      background: var(--bg-input);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      margin-top: 16px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+    }
+
+    .compare-box .highlight {
+      color: var(--accent-red);
+      font-weight: 600;
+    }
+    
+    .compare-box .solution {
+      color: var(--accent-green);
+      font-weight: 600;
+      margin-top: 8px;
+      display: block;
+    }
+
+    .table-container {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--bg-overlay);
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+    
+    td strong {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .badge {
+      background: rgba(10,132,255,0.2);
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .badge.green { background: rgba(48,209,88,0.2); color: var(--accent-green); }
+    .badge.yellow { background: rgba(255,214,10,0.2); color: var(--accent-yellow); }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(10,132,255,0.08), rgba(191,90,242,0.08));
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .cta-box h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .cta-box p {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      transition: 150ms ease;
+      text-decoration: none;
+    }
+
+    .btn:hover { background: var(--accent-hover); }
+    .btn:active { background: #006ee6; transform: scale(0.97); }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .window {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        border: none;
+      }
+      
+      .window-body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 8px 12px;
+        overflow-x: auto;
+        flex-shrink: 0;
+        /* Hide scrollbar for the horizontal nav */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .sidebar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-label {
+        display: none;
+      }
+
+      .nav-item {
+        white-space: nowrap;
+        padding: 8px 16px;
+      }
+
+      .content {
+        padding: 24px 16px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p.subtitle {
+        font-size: 14px;
+        margin-bottom: 32px;
+      }
+
+      .cta-box {
+        padding: 24px 16px;
+      }
+
+      .cta-box h2 {
+        font-size: 20px;
+      }
+      
+      .table-container {
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="window">
+    <div class="titlebar">
+      <div class="traffic-lights">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+      </div>
+      <div class="title">Nghiên cứu mua tablet - Bá Anh Đẹp Trai</div>
+    </div>
+    
+    <div class="window-body">
+      <div class="sidebar">
+        <div class="nav-label">Danh mục</div>
+        <a href="#intro" class="nav-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Tổng quan
+        </a>
+        <a href="#reasons" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          Vì sao cần Tablet?
+        </a>
+        <a href="#specs" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+          Thông số GT (2025)
+        </a>
+        <a href="#cta" class="nav-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+          Lời kết
+        </a>
+      </div>
+
+      <div class="content">
+        <div id="intro" class="section">
+          <h1>Mảnh ghép hoàn hảo cho Học tập & Phát triển</h1>
+          <p class="subtitle">
+            <strong>2 giờ sáng trước ngày thi cuối kỳ...</strong> con cần tìm lại cách giải một thuật toán quan trọng nằm rải rác đâu đó trong 300 trang ghi chép tay. Nếu lật từng trang giấy, con sẽ mất bao lâu?<br><br>
+            Một bộ sách giáo trình chuyên ngành IT, Toán và đồ dùng học tập cho 4 năm đại học thường ngốn khoảng <strong>8 - 15 triệu đồng</strong>. Nhưng giờ đây, toàn bộ khối lượng kiến thức khổng lồ đó (và hơn thế nữa) có thể được gói gọn vào một thiết bị duy nhất. Con đã có PC ở nhà và Điện thoại để liên lạc, nhưng Tablet mới thực sự là "vũ khí" sống còn trên giảng đường.
+          </p>
+        </div>
+
+        <div id="reasons" class="section">
+          <h2 class="section-title">Tại sao PC và Điện thoại là chưa đủ?</h2>
+          <div class="grid">
+            
+            <div class="card">
+              <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
+              </div>
+              <h3>Ghi chép & Lưu trữ Kỹ thuật số</h3>
+              <p>- Học chay bằng vở giấy khiến việc tra cứu trong hàng ngàn trang cực kỳ khó khăn. <br>- Ngoài ra, một chiếc tablet có thể thay thế hoàn toàn những quyển sách phải mua vật lí - vì đã có bản PDF. <br>- Hơn nữa, ở hầu hết các trường đại học, bài tập buộc phải nộp tài liệu bằng PDF sạch sẽ và chuyên nghiệp, tablet có thể tự động hóa quy trình này rất nhanh mà không tốn công phức tạp như máy tính.</p>
+              <div class="compare-box">
+                <div><span class="highlight">Sự thật:</span> Mất ghi chép = Mất gốc. Không có công cụ tìm kiếm (Ctrl+F) cho vở giấy.</div>
+                <div class="solution">✓ Tablet: Lưu trữ trọn đời, tìm kiếm keyword trong tích tắc.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon purple">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              </div>
+              <h3>Tính cơ động tuyệt đối</h3>
+              <p>- Môi trường học tập không chỉ ở nhà. Rất nhiều lúc con cần mang tài liệu ra thư viện, quán cafe để đổi không gian học, họp nhóm với bạn bè.</p>
+              <div class="compare-box">
+                <div><span class="highlight">PC để bàn:</span> Nằm chết một chỗ ở nhà.</div>
+                <div class="solution">✓ Tablet: Nhẹ chỉ 458g, nhét vừa mọi loại túi xách.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h4l3-9 5 18 3-9h5"></path></svg>
+              </div>
+              <h3>Không gian hiển thị & Bảo vệ mắt</h3>
+              <p>- Đọc tài liệu tiếng Anh, xem Video bài giảng bằng màn hình nhỏ rất dễ bị cận thị và mỏi mắt. Màn hình Tablet 11.1 inch, độ phân giải 3.2K sắc nét là giải pháp cực kỳ khoa học.</p>
+              <div class="compare-box">
+                <div><span class="highlight">Điện thoại:</span> Màn hình quá bé để đọc slide hay file PDF.</div>
+                <div class="solution">✓ Tablet: Màn hình to, có chế độ bảo vệ mắt chuẩn quốc tế.</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-icon orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              </div>
+              <h3>Màn hình phụ sinh thái đa chiều</h3>
+              <p>Khi ngồi ở nhà, Tablet không hề bị bỏ không. Nó có thể kết nối làm màn hình phụ thứ hai cho PC, giúp hiển thị thêm tài liệu khi đang code hoặc làm bài tập lớn.</p>
+              <div class="compare-box">
+                <div><span class="highlight">Điện thoại:</span> Quá bé để làm màn hình phụ.</div>
+                <div class="solution">✓ Tablet: Hoạt động song song và đồng bộ dữ liệu.</div>
+              </div>
+            </div>
+
+            <div class="card card-large">
+              <div class="card-icon" style="background: rgba(10,132,255,0.15); color: var(--accent);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+              </div>
+              <h3 style="font-size: 20px; color: var(--accent);">Thiết Bị Bắt Buộc cho Sinh Viên STEM / IT</h3>
+              <p style="font-size: 15px; margin-bottom: 12px;">Từ năm 2020, <strong>hầu hết sinh viên IT và Kỹ thuật tại các trường Top đầu Mỹ và Singapore</strong> đã chuyển sang dùng Tablet thay thế hoàn toàn tập vở. Việc không có Tablet khiến sinh viên bị tụt hậu rất xa trong tốc độ đọc Documentations (Tài liệu kỹ thuật), vẽ sơ đồ khối và phác thảo thuật toán (Flowchart) trên giảng đường.</p>
+              <div class="compare-box" style="background: rgba(0,0,0,0.2); border-color: var(--accent);">
+                <div style="font-size: 14px;"><span style="color: var(--text-primary); font-weight: 600;">Sự thật:</span> Không một sinh viên IT hay Kỹ thuật nào có thể mang một chiếc PC để bàn lên giảng đường hay thư viện. Tablet chính là "cuốn sách giáo khoa tương tác" và "bản nháp kỹ thuật số" vô tận cho ngành học này.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="specs" class="section">
+          <h2 class="section-title">Chiếc Tablet Kin chọn: Lenovo Pad Pro GT (2025)</h2>
+          <p class="subtitle" style="margin-bottom: 24px;">Tại sao lại là mẫu máy này? Vì đây là chiếc máy có P/P (Hiệu năng trên giá thành) tốt nhất hiện nay, một khoản đầu tư dùng bền bỉ ít nhất 4-5 năm tới.</p>
+          
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th width="25%">Hạng mục</th>
+                  <th>Cấu hình đột phá</th>
+                  <th width="30%">Lợi ích thực tế cho con</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Màn hình</strong></td>
+                  <td>
+                    <span class="badge">11.1 inch</span> <span class="badge">IPS 3.2K (3200x2000)</span><br>
+                    144Hz, Độ sáng 800 nits, Kính Gorilla Glass 7i
+                  </td>
+                  <td>Không gian rộng rãi chia đôi màn hình vừa xem video vừa ghi chú. Màn nhám chống chói bảo vệ mắt.</td>
+                </tr>
+                <tr>
+                  <td><strong>Hiệu năng (Chip)</strong></td>
+                  <td>
+                    <span class="badge green">Snapdragon 8 Gen 3</span> <span class="badge" style="background: rgba(191,90,242,0.2); color: var(--accent-purple);">Mạnh ngang iPhone 15 Pro</span><br>
+                    Một trong những chip mạnh nhất giới Android hiện tại (Cortex-X4 @3.3GHz)
+                  </td>
+                  <td>Mở 20 tab PDF, ứng dụng học tập, và render nhẹ nhàng mà không bao giờ lo giật lag. Dùng bền 5 năm.</td>
+                </tr>
+                <tr>
+                  <td><strong>Pin & Sạc nhanh</strong></td>
+                  <td>
+                    <span class="badge yellow">8860 mAh</span> <span class="badge">Sạc siêu nhanh 68W</span><br>
+                    Đầy 50% chỉ trong 12 phút.
+                  </td>
+                  <td>Mang đi học nguyên ngày từ sáng tới chiều không cần cắm sạc. Sạc một tí lúc nghỉ trưa là đủ dùng tiếp.</td>
+                </tr>
+                <tr>
+                  <td><strong>Phụ kiện (Bút)</strong></td>
+                  <td>Hỗ trợ bút Stylus với <strong style="color:var(--accent)">8192 mức lực</strong> nhấn.</td>
+                  <td>Cảm giác viết chân thực y như viết lên giấy thật, nét chữ mượt mà, vẽ biểu đồ xuất sắc.</td>
+                </tr>
+                <tr>
+                  <td><strong>Thiết kế</strong></td>
+                  <td>Vỏ kim loại nguyên khối, mỏng 5.99mm, nặng 458g.</td>
+                  <td>Cực kỳ cao cấp và chuyên nghiệp, độ bền cao do làm từ nhôm nguyên khối.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="cta" class="section">
+          <div class="cta-box">
+            <h2>Đầu tư một lần - Lợi ích 5 năm ❤️</h2>
+            <p>Ba hãy coi đây là khoản đầu tư giáo dục cực kỳ rẻ. Một chiếc máy bền bỉ đồng hành suốt 4-5 năm đại học và sau khi ra trường, để đổi lấy tốc độ tiếp thu kiến thức và sự tiện lợi tuyệt đối.</p>
+            <button class="btn" onclick="alert('Yay! Cảm ơn ba rất nhiềuuuu! Con hứa sẽ học thật tốt! ❤️')">
+                Ba cứ từ từ quyết định nha ba hihi 😁
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple script to handle active state of sidebar navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    const contentArea = document.querySelector('.content');
+
+    navItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Update active nav based on scroll position
+    contentArea.addEventListener('scroll', () => {
+      let current = '';
+      const sections = document.querySelectorAll('.section');
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (contentArea.scrollTop >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navItems.forEach(nav => {
+        nav.classList.remove('active');
+        if (nav.getAttribute('href') === `#${current}`) {
+          nav.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
